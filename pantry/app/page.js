@@ -17,6 +17,7 @@ export default function Home() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [user, setUser] = useState(null);
+    const [error, setError] = useState('');
 
     // Google Auth Provider
     const provider = new GoogleAuthProvider();
@@ -90,8 +91,10 @@ export default function Home() {
             console.log("Signed in:", user);
             setEmail('');
             setPassword('');
+            setError(''); // Clear any previous errors
         } catch (error) {
             console.error("Error signing in: ", error.message);
+            setError(error.message); // Set the error message in state
         }
     };
 
@@ -102,8 +105,10 @@ export default function Home() {
             console.log("Signed up:", user);
             setEmail('');
             setPassword('');
+            setError(''); // Clear any previous errors
         } catch (error) {
             console.error("Error signing up: ", error.message);
+            setError(error.message); // Set the error message in state
         }
     };
 
@@ -126,6 +131,7 @@ export default function Home() {
             console.log("Token:", token);
         } catch (error) {
             console.error("Error signing in with Google: ", error.message);
+            setError(error.message); // Set the error message in state
         }
     };
 
@@ -354,9 +360,13 @@ export default function Home() {
                     <Button variant="contained" onClick={handleGoogleSignIn}>
                         Sign In with Google
                     </Button>
+                    {error && (
+                        <Typography color="error" variant="body2">
+                            {error}
+                        </Typography>
+                    )}
                 </Box>
             )}
         </Box>
     );
 }
-
